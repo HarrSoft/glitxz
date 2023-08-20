@@ -1,6 +1,6 @@
 <script>
     import "../app.css";
-    import Sidebarnav from "./components/nav/sidebarnav.component.svelte";
+    import Sidebarnav from "./components/nav/SidebarNav.component.svelte";
 </script>
 
 <div class="h-screen max-h-screen flex">

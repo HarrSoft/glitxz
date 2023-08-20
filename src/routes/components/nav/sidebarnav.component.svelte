@@ -1,6 +1,5 @@
 <script>
-	import NavMainTopic from "./navMainTopic.component.svelte";
-
+	import NavMainTopic from "./NavMainTopic.component.svelte";
 </script>
 
 <nav class="w-[15vw] border pt-10">
