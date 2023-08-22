@@ -7,5 +7,5 @@
   <NavMainTopic href='/Art'>Art</NavMainTopic>
   <NavMainTopic href='/Fashion'>Fashion</NavMainTopic> 
   <NavMainTopic href='/Gaming'>Gaming</NavMainTopic>
-  <NavMainTopic href='/E-Sho['>E-Shop</NavMainTopic>
+  <NavMainTopic href='/E-Shop'>E-Shop</NavMainTopic>
 </nav>
