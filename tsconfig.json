@@ -5,6 +5,14 @@
 		"checkJs": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
+		"paths": {
+			"$lib": ["./src/lib"],
+			"$lib/*": ["./src/lib/*"],
+			"$com": ["./src/lib/components"],
+			"$com/*": ["./src/lib/components/*"],
+			"$z": ["./src/lib/zod"],
+			"$stores": ["./src/stores"]
+		},
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
