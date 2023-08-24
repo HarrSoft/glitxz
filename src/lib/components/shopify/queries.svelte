@@ -3,6 +3,8 @@
 		PUBLIC_SHOPIFY_API_ENDPOINT,
 		PUBLIC_SHOPIFY_STOREFRONT_API_TOKEN
 	} from '$env/static/public';
+	import { cartMutationResponseZ, productListResponseZ, productResponseZ } from '$z';
+	import type { CartMutationResponseZ, ProductListResponseZ, ProductResponseZ } from '$z';
 
 	// todo: use a proper graphql library. This is calling an unauthenticated API so it doesn't matter.
 	export const postToShopify = async ({
@@ -22,7 +24,7 @@
 		}).then((res) => res.json());
 
 		if (result.errors) {
-			console.log({ errors: result.errors });
+			return { errors: result.errors };
 		} else if (!result || !result.data) {
 			console.log({ result });
 			return 'No results found.';
@@ -30,7 +32,11 @@
 		return result.data;
 	};
 
-	export const addItemToCart = async (cartId: string, itemId: string, quantity: number) => {
+	export const addItemToCart = async (
+		cartId: string,
+		itemId: string,
+		quantity: number
+	): CartMutationResponseZ => {
 		const shopifyResponse = postToShopify({
 			query: `
         mutation addItemToCart($cartId: ID!, $lines: [CartLineInput!]!) {
@@ -46,7 +52,7 @@
                       ... on ProductVariant {
                         id
                         title
-                        priceV2 {
+                        price {
                           amount
                           currencyCode
                         }
@@ -59,7 +65,7 @@
                   }
                 }
               }
-              estimatedCost {
+              cost {
                 totalAmount {
                   amount
                   currencyCode
@@ -91,10 +97,10 @@
 				]
 			}
 		});
-		return shopifyResponse;
+		return cartMutationResponseZ.parse(shopifyResponse);
 	};
 
-	export const getProducts = async (): Promise<ProductEdges> => {
+	export const getProducts = async (): ProductListResponseZ => {
 		const shopifyResponse = await postToShopify({
 			query: `{
       products(sortKey: TITLE, first: 100) {
@@ -129,7 +135,7 @@
             images(first: 1) {
               edges {
                 node {
-                  src
+                  url
                   altText
                 }
               }
@@ -140,15 +146,14 @@
     }
   `
 		});
-		products.set(shopifyResponse.products.edges);
-		return shopifyResponse;
+		return productListResponseZ.parse(shopifyResponse);
 	};
 
-	export const getProductDetails = async (productHandle: string) => {
+	export const getProductDetails = async (productHandle: string): ProductResponseZ => {
 		const shopifyResponse = await postToShopify({
 			query: ` 
         query getProduct($handle: String!) {
-          productByHandle(handle: $handle) {
+          product(handle: $handle) {  
             id
             handle
             description
@@ -160,7 +165,7 @@
                   id
                   title
                   quantityAvailable
-                  priceV2 {
+                  price {
                     amount
                     currencyCode
                   }
@@ -180,7 +185,7 @@
             images(first: 1) {
               edges {
                 node {
-                  src
+                  url
                   altText
                 }
               }
@@ -191,7 +196,6 @@
 			variables: { handle: productHandle }
 		});
 
-		productDetails.set(shopifyResponse.productByHandle);
-		return shopifyResponse.productByHandle;
+		return productResponseZ.parse(shopifyResponse.productByHandle);
 	};
 </script>
