@@ -5,6 +5,8 @@
 
 <div class="product-grid">
 	{#each $products as product}
-		<ProductCard product={product.node} />
+		<ProductCard {product} />
 	{/each}
 </div>
+
+<style></style>

@@ -1,4 +1,4 @@
-declare enum CountryCode {
+export enum CountryCode {
 	AD = 'AD',
 	AE = 'AE',
 	AF = 'AF',
@@ -251,7 +251,7 @@ declare enum CountryCode {
 	ZW = 'ZW'
 }
 
-declare enum CurrencyCode {
+export enum CurrencyCode {
 	USD = 'USD',
 	CAD = 'CAD',
 	EUR = 'EUR',
@@ -373,19 +373,19 @@ declare enum CurrencyCode {
 	ZWL = 'ZWL'
 }
 
-declare enum WeightUnit {
+export enum WeightUnit {
 	GRAMS = 'GRAMS',
 	KILOGRAMS = 'KILOGRAMS',
 	OUNCES = 'OUNCES',
 	POUNDS = 'POUNDS'
 }
-declare enum UnitPriceMeasurementMeasuredType {
+export enum UnitPriceMeasurementMeasuredType {
 	AREA = 'AREA',
 	LENGTH = 'LENGTH',
 	VOLUME = 'VOLUME',
 	WEIGHT = 'WEIGHT'
 }
-declare enum UnitPriceMeasurementMeasuredUnit {
+export enum UnitPriceMeasurementMeasuredUnit {
 	CL = 'CL',
 	CM = 'CM',
 	G = 'G',
@@ -399,7 +399,7 @@ declare enum UnitPriceMeasurementMeasuredUnit {
 	MM = 'MM'
 }
 
-declare enum CartErrorCode {
+export enum CartErrorCode {
 	INVALID = 'INVALID',
 	INVALID_DELIVERY_GROUP = 'INVALID_DELIVERY_GROUP',
 	INVALID_DELIVERY_OPTION = 'INVALID_DELIVERY_OPTION',
@@ -409,7 +409,7 @@ declare enum CartErrorCode {
 	MISSING_DISCOUNT_CODE = 'MISSING_DISCOUNT_CODE',
 	MISSING_NOTE = 'MISSING_NOTE'
 }
-declare enum DeliveryMethodType {
+export enum DeliveryMethodType {
 	LOCAL = 'LOCAL',
 	NONE = 'NONE',
 	PICKUP_POINT = 'PICKUP_POINT',
@@ -418,28 +418,28 @@ declare enum DeliveryMethodType {
 	SHIPPING = 'SHIPPING'
 }
 
-declare enum DiscountApplicationAllocationMethod {
+export enum DiscountApplicationAllocationMethod {
 	ACROSS = 'ACROSS',
 	EACH = 'EACH'
 }
-declare enum DiscountApplicationTargetSelection {
+export enum DiscountApplicationTargetSelection {
 	ALL = 'ALL',
 	ENTITLED = 'ENTITLED',
 	EXPLICIT = 'EXPLICIT'
 }
-declare enum DiscountApplicationTargetType {
+export enum DiscountApplicationTargetType {
 	LINE_ITEM = 'LINE_ITEM',
 	SHIPPING_LINE = 'SHIPPING_LINE'
 }
 
-declare enum OrderCancelReason {
+export enum OrderCancelReason {
 	CUSTOMER = 'CUSTOMER',
 	DECLINED = 'DECLINED',
 	FRAUD = 'FRAUD',
 	INVENTORY = 'INVENTORY',
 	OTHER = 'OTHER'
 }
-declare enum OrderFinancialStatus {
+export enum OrderFinancialStatus {
 	AUTHORIZED = 'AUTHORIZED',
 	PAID = 'PAID',
 	PARTIALLY_PAID = 'PARTIALLY_PAID',
@@ -448,7 +448,7 @@ declare enum OrderFinancialStatus {
 	REFUNDED = 'REFUNDED',
 	VOIDED = 'VOIDED'
 }
-declare enum OrderFulfillmentStatus {
+export enum OrderFulfillmentStatus {
 	FULFILLED = 'FULFILLED',
 	IN_PROGRESS = 'IN_PROGRESS',
 	ON_HOLD = 'ON_HOLD',
@@ -460,18 +460,18 @@ declare enum OrderFulfillmentStatus {
 	UNFULFILLED = 'UNFULFILLED'
 }
 
-declare enum ShopifyFilterType {
+export enum ShopifyFilterType {
 	BOOLEAN = 'BOOLEAN',
 	LIST = 'LIST',
 	PRICE_RANGE = 'PRICE_RANGE'
 }
 
-declare enum SellingPlanCheckoutChargeType {
+export enum SellingPlanCheckoutChargeType {
 	PERCENTAGE = 'PERCENTAGE',
 	PRICE = 'PRICE'
 }
 
-declare enum MediaContentType {
+export enum MediaContentType {
 	EXTERNAL_VIDEO = 'EXTERNAL_VIDEO',
 	IMAGE = 'IMAGE',
 	MODEL_3D = 'MODEL_3D',
