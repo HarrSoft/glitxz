@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import * as constants from '$types';
 
 // By ggoodman
 export const literalZ = z.union([z.string(), z.number(), z.boolean(), z.null()]);
@@ -9,8 +10,8 @@ export const jsonZ: z.ZodType<JsonZ> = z.lazy(() =>
 );
 
 export const displayableErrorZ = z.object({
-	field: z.array(z.string()),
-	message: z.string()
+	field: z.array(z.string()).optional(),
+	message: z.string().optional()
 });
 
 export const shopifyNodeZ = z.object({
@@ -19,7 +20,7 @@ export const shopifyNodeZ = z.object({
 export type ShopifyNodeZ = z.infer<typeof shopifyNodeZ>;
 
 export const onlineStorePublishableZ = z.object({
-	onlineStoreUrl: z.string().url().nullable()
+	onlineStoreUrl: z.string().url().nullable().optional()
 });
 export type OnlineStorePublishableZ = z.infer<typeof onlineStorePublishableZ>;
 
@@ -36,28 +37,31 @@ export type ShopifyAttributeZ = z.infer<typeof shopifyAttributeZ>;
 
 export const shopifyEdgeZ = function <T extends z.ZodTypeAny>(typeDefinition: T) {
 	return z.object({
-		cursor: z.string(),
+		cursor: z.string().optional(),
 		node: typeDefinition
 	});
 };
 export type ShopifyEdgeZ = ReturnType<typeof shopifyEdgeZ>;
 
-export const shopifyFilterTypeZ = z.nativeEnum(ShopifyFilterType);
+export const shopifyFilterTypeZ = z.nativeEnum(constants.ShopifyFilterType);
+export type ShopifyFilterTypeEnumZ = z.infer<typeof shopifyFilterTypeZ>;
+
 export const shopifyFilterValueZ = shopifyNodeZ.extend({
-	count: z.number().int(),
-	input: jsonZ,
-	label: z.string()
+	count: z.number().int().optional(),
+	input: jsonZ.optional(),
+	label: z.string().optional()
 });
+export type ShopifyFilterValueZ = z.infer<typeof shopifyFilterValueZ>;
 
 export const shopifyFilterZ = shopifyNodeZ.extend({
-	label: z.string(),
-	type: shopifyFilterTypeZ,
-	values: z.array(shopifyFilterValueZ)
+	label: z.string().optional(),
+	type: shopifyFilterTypeZ.optional(),
+	values: z.array(shopifyFilterValueZ).optional()
 });
 export const shopifyPageInfoZ = z.object({
 	endCursor: z.string().optional(),
-	hasNextPage: z.boolean(),
-	hasPreviousPage: z.boolean(),
+	hasNextPage: z.boolean().optional(),
+	hasPreviousPage: z.boolean().optional(),
 	startCursor: z.string().optional()
 });
 
@@ -76,26 +80,28 @@ export type ShopifyConnectionZ<T extends z.ZodTypeAny> = ReturnType<typeof shopi
 export const metafieldReferenceZ = z.lazy(() => z.union([productZ, productVariantZ])); // can also add: Collection | GenericFile | MediaImage | Metaobject | Page | Video
 export type MetafieldReferenceZ = z.infer<typeof metafieldReferenceZ>;
 
-export const metafieldReferenceConnectionZ = shopifyConnectionZ(metafieldReferenceZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const metafieldReferenceConnectionZ = shopifyConnectionZ(metafieldReferenceZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type MetafieldReferenceConnectionZ = z.infer<typeof metafieldReferenceConnectionZ>;
 
 export const metafieldZ: z.ZodSchema = shopifyNodeZ.extend({
-	createdAt: z.date(),
+	createdAt: z.date().optional(),
 	description: z.string().optional(),
-	key: z.string(),
-	namespace: z.string(),
+	key: z.string().optional(),
+	namespace: z.string().optional(),
 	parentResource: z.lazy(() =>
 		z.union([cartZ, customerZ, shopifyLocationZ, productZ, productVariantZ])
 	), // not included yet, but could be in future: article, blog, collection, market, order, page, shop
 	reference: metafieldReferenceZ.optional(),
-	references: metafieldReferenceConnectionZ,
-	type: z.string(), // https://shopify.dev/docs/apps/custom-data/metafields/types
-	updatedAt: z.date(),
-	value: z.string()
+	references: metafieldReferenceConnectionZ.optional(),
+	type: z.string().optional(), // https://shopify.dev/docs/apps/custom-data/metafields/types
+	updatedAt: z.date().optional(),
+	value: z.string().optional()
 });
 export type MetafieldZ = z.infer<typeof metafieldZ>;
 
@@ -104,43 +110,49 @@ export type MetafieldConnectionZ = z.infer<typeof metafieldConnectionZ>;
 
 export const hasMetafieldsZ = z.object({
 	metafield: metafieldZ.optional(),
-	metafields: metafieldConnectionZ
+	metafields: metafieldConnectionZ.optional()
 });
 export type HasMetafieldsZ = z.infer<typeof hasMetafieldsZ>;
 
 export const shopifyImageZ = shopifyNodeZ.extend({
-	altText: z.string().optional(),
+	altText: z.string().nullable(),
 	height: z.number().int().optional(),
 	width: z.number().int().optional(),
 	url: z.string()
 });
 export type ShopifyImageZ = z.infer<typeof shopifyImageZ>;
 
-export const imageConnectionZ = shopifyConnectionZ(shopifyImageZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const imageConnectionZ = shopifyConnectionZ(shopifyImageZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type ImageConnectionZ = z.infer<typeof imageConnectionZ>;
 
-export const countryCodeZ = z.nativeEnum(CountryCode);
-export const currencyCodeZ = z.nativeEnum(CurrencyCode);
-export const unitPriceMeasurementMeasuredTypeZ = z.nativeEnum(UnitPriceMeasurementMeasuredType);
-export const unitPriceMeasurementMeasuredUnit = z.nativeEnum(UnitPriceMeasurementMeasuredUnit);
-export const weightUnitZ = z.nativeEnum(WeightUnit);
+export const countryCodeZ = z.nativeEnum(constants.CountryCode);
+export const currencyCodeZ = z.nativeEnum(constants.CurrencyCode);
+export const unitPriceMeasurementMeasuredTypeZ = z.nativeEnum(
+	constants.UnitPriceMeasurementMeasuredType
+);
+export const unitPriceMeasurementMeasuredUnit = z.nativeEnum(
+	constants.UnitPriceMeasurementMeasuredUnit
+);
+export const weightUnitZ = z.nativeEnum(constants.WeightUnit);
 
 export const moneyZ = z.object({
-	amount: z.number(),
+	amount: z.coerce.number(),
 	currencyCode: currencyCodeZ
 });
 export type MoneyZ = z.infer<typeof moneyZ>;
 
 export const unitPriceMeasurementZ = z.object({
-	measuredType: unitPriceMeasurementMeasuredTypeZ,
-	quantityUnit: unitPriceMeasurementMeasuredUnit,
-	quantityValue: z.number().int(),
-	referenceUnit: unitPriceMeasurementMeasuredUnit,
-	referenceValue: z.number().int()
+	measuredType: unitPriceMeasurementMeasuredTypeZ.optional(),
+	quantityUnit: unitPriceMeasurementMeasuredUnit.optional(),
+	quantityValue: z.number().int().optional(),
+	referenceUnit: unitPriceMeasurementMeasuredUnit.optional(),
+	referenceValue: z.number().int().optional()
 });
 export type UnitPriceMeasurementZ = z.infer<typeof unitPriceMeasurementZ>;
 
@@ -168,11 +180,13 @@ export const mailingAddressZ = shopifyNodeZ.merge(addressZ).extend({
 });
 export type MailingAddressZ = z.infer<typeof mailingAddressZ>;
 
-export const mailingAddressConnectionZ = shopifyConnectionZ(mailingAddressZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const mailingAddressConnectionZ = shopifyConnectionZ(mailingAddressZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type MailingAddressConnectionZ = z.infer<typeof mailingAddressConnectionZ>;
 
 export const inventoryAddressZ = addressZ.extend({
@@ -180,12 +194,12 @@ export const inventoryAddressZ = addressZ.extend({
 });
 
 export const sellingPlanAllocationPriceAdjustmentZ = z.object({
-	compareAtPrice: moneyZ,
-	perDeliveryPrice: moneyZ,
-	price: moneyZ,
-	unitPrice: moneyZ.nullable()
+	compareAtPrice: moneyZ.optional(),
+	perDeliveryPrice: moneyZ.optional(),
+	price: moneyZ.optional(),
+	unitPrice: moneyZ.nullable().optional()
 });
-export const sellingPlanCheckoutChargeTypeZ = z.nativeEnum(SellingPlanCheckoutChargeType);
+export const sellingPlanCheckoutChargeTypeZ = z.nativeEnum(constants.SellingPlanCheckoutChargeType);
 export const sellingPlanCheckoutChargeValueZ = z.union([
 	z.object({
 		percentage: z.number()
@@ -206,155 +220,169 @@ export const sellingPlanPriceAdjustmentValueZ = z.union([
 
 export const sellingPlanPriceAdjustmentZ = z.object({
 	adjustmentValue: sellingPlanPriceAdjustmentValueZ,
-	orderCount: z.number().int().nullable()
+	orderCount: z.number().int().nullable().optional()
 });
 
 export const sellingPlanZ = shopifyNodeZ.extend({
-	checkoutCharge: sellingPlanCheckoutChargeZ,
+	checkoutCharge: sellingPlanCheckoutChargeZ.optional(),
 	description: z.string().optional(),
-	name: z.string(),
+	name: z.string().optional(),
 	options: z.array(
 		z.object({
 			name: z.string().optional(),
 			value: z.string().optional()
 		})
 	),
-	priceAdjustments: z.array(sellingPlanPriceAdjustmentZ),
-	recurringDeliveries: z.boolean()
+	priceAdjustments: z.array(sellingPlanPriceAdjustmentZ).optional(),
+	recurringDeliveries: z.boolean().optional()
 });
 
-export const sellingPlanConnectionZ = shopifyConnectionZ(sellingPlanZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const sellingPlanConnectionZ = shopifyConnectionZ(sellingPlanZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type SellingPlanConnectionZ = z.infer<typeof sellingPlanConnectionZ>;
 
 export const sellingPlanAllocationZ = z.object({
-	checkoutChargeAmount: moneyZ,
-	priceAdjustments: z.array(sellingPlanAllocationPriceAdjustmentZ),
-	remainingBalanceChargeAmount: moneyZ,
-	sellingPlan: z.lazy(() => sellingPlanZ)
+	checkoutChargeAmount: moneyZ.optional(),
+	priceAdjustments: z.array(sellingPlanAllocationPriceAdjustmentZ).optional(),
+	remainingBalanceChargeAmount: moneyZ.optional(),
+	sellingPlan: z.lazy(() => sellingPlanZ).optional()
 });
 export type SellingPlanAllocationZ = z.infer<typeof sellingPlanAllocationZ>;
 
-export const sellingPlanAllocationConnectionZ = shopifyConnectionZ(sellingPlanAllocationZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const sellingPlanAllocationConnectionZ = shopifyConnectionZ(sellingPlanAllocationZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type SellingPlanAllocationConnectionZ = z.infer<typeof sellingPlanAllocationConnectionZ>;
 
 export const sellingPlanGroupOptionZ = z.object({
-	name: z.string(),
-	values: z.array(z.string())
+	name: z.string().optional(),
+	values: z.array(z.string()).optional()
 });
 export type SellingPlanGroupOptionZ = z.infer<typeof sellingPlanGroupOptionZ>;
 
 export const sellingPlanGroupZ = z.object({
 	appName: z.string().optional(),
-	name: z.string(),
-	options: z.array(sellingPlanGroupOptionZ),
-	sellingPlans: sellingPlanConnectionZ
+	name: z.string().optional(),
+	options: z.array(sellingPlanGroupOptionZ).optional(),
+	sellingPlans: sellingPlanConnectionZ.optional()
 });
 export type SellingPlanGroupZ = z.infer<typeof sellingPlanGroupZ>;
 
-export const sellingPlanGroupConnectionZ = shopifyConnectionZ(sellingPlanGroupZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const sellingPlanGroupConnectionZ = shopifyConnectionZ(sellingPlanGroupZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type SellingPlanGroupConnectionZ = z.infer<typeof sellingPlanGroupConnectionZ>;
 
 export const shopifyLocationZ = shopifyNodeZ.merge(hasMetafieldsZ).extend({
-	address: inventoryAddressZ,
-	name: z.string()
+	address: inventoryAddressZ.optional(),
+	name: z.string().optional()
 });
 export type ShopifyLocationZ = z.infer<typeof shopifyLocationZ>;
 
-export const locationConnectionZ = shopifyConnectionZ(shopifyLocationZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const locationConnectionZ = shopifyConnectionZ(shopifyLocationZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type LocationConnectionZ = ShopifyConnectionZ<typeof shopifyLocationZ>;
 
 export const storeAvailabilityZ = z.object({
-	available: z.boolean(),
-	location: shopifyLocationZ,
-	pickUpTime: z.string(),
-	quantityAvailable: z.number().int()
+	available: z.boolean().optional(),
+	location: shopifyLocationZ.optional(),
+	pickUpTime: z.string().optional(),
+	quantityAvailable: z.number().int().optional()
 });
 export type StoreAvailabilityZ = z.infer<typeof storeAvailabilityZ>;
 
-export const storeAvailabilityConnectionZ = shopifyConnectionZ(storeAvailabilityZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const storeAvailabilityConnectionZ = shopifyConnectionZ(storeAvailabilityZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type StoreAvailabilityConnectionZ = z.infer<typeof storeAvailabilityConnectionZ>;
 
 export type ProductVariantZ = ShopifyNodeZ &
 	HasMetafieldsZ & {
-		availableForSale: boolean;
+		availableForSale?: boolean;
 		barcode?: string;
 		compareAtPrice?: MoneyZ;
-		currentlyNotInStock: boolean;
-		image: ShopifyImageZ;
-		price: MoneyZ;
+		currentlyNotInStock?: boolean;
+		image?: ShopifyImageZ;
+		price?: MoneyZ;
 		product?: ProductZ;
-		quantityAvailable: number;
-		title: string;
-		requiresShipping: boolean;
-		selectedOptions: {
+		quantityAvailable?: number;
+		title?: string;
+		requiresShipping?: boolean;
+		selectedOptions?: {
 			name: string;
 			value: string;
 		};
-		sellingPlanAllocations: SellingPlanAllocationConnectionZ;
+		sellingPlanAllocations?: SellingPlanAllocationConnectionZ;
 		sku?: string;
-		storeAvailability: StoreAvailabilityConnectionZ;
+		storeAvailability?: StoreAvailabilityConnectionZ;
 		unitPrice?: MoneyZ;
 		unitPriceMeasurement?: UnitPriceMeasurementZ;
 		weight?: number;
-		weightUnit: WeightUnit;
+		weightUnit?: constants.WeightUnit;
 	};
 export const productVariantZ: z.ZodSchema<ProductVariantZ> = z
 	.object({
-		availableForSale: z.boolean(),
+		availableForSale: z.boolean().optional(),
 		barcode: z.string().optional(),
 		compareAtPrice: moneyZ.optional(),
-		currentlyNotInStock: z.boolean(),
+		currentlyNotInStock: z.boolean().optional(),
 		image: shopifyImageZ,
 		price: moneyZ,
-		product: z.lazy(() => productZ),
-		quantityAvailable: z.number(),
-		requiresShipping: z.boolean(),
-		title: z.string(),
-		selectedOptions: z.object({
-			name: z.string(),
-			value: z.string()
-		}),
-		sellingPlanAllocations: sellingPlanAllocationConnectionZ,
+		product: z.lazy(() => productZ).optional(),
+		quantityAvailable: z.number().optional(),
+		requiresShipping: z.boolean().optional(),
+		title: z.string().optional(),
+		selectedOptions: z
+			.object({
+				name: z.string(),
+				value: z.string()
+			})
+			.optional(),
+		sellingPlanAllocations: sellingPlanAllocationConnectionZ.optional(),
 		sku: z.string().optional(),
-		storeAvailability: storeAvailabilityConnectionZ,
+		storeAvailability: storeAvailabilityConnectionZ.optional(),
 		unitPrice: moneyZ.optional(),
-		unitPriceMeasurement: unitPriceMeasurementZ,
+		unitPriceMeasurement: unitPriceMeasurementZ.optional(),
 		weight: z.number().optional(),
-		weightUnit: weightUnitZ
+		weightUnit: weightUnitZ.optional()
 	})
 	.merge(shopifyNodeZ)
 	.merge(hasMetafieldsZ);
 
-export const productVariantConnectionZ = shopifyConnectionZ(productVariantZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const productVariantConnectionZ = shopifyConnectionZ(productVariantZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type ProductVariantConnectionZ = z.infer<typeof productVariantConnectionZ>;
 
 const priceRangeZ = z.object({
-	maxVariantPrice: moneyZ,
-	minVariantPrice: moneyZ
+	maxVariantPrice: moneyZ.optional(),
+	minVariantPrice: moneyZ.optional()
 });
 
 export const shopifySeoZ = z.object({
@@ -363,57 +391,61 @@ export const shopifySeoZ = z.object({
 });
 export type ShopifySeoZ = z.infer<typeof shopifySeoZ>;
 
-export const mediaContentTypeZ = z.nativeEnum(MediaContentType);
+export const mediaContentTypeZ = z.nativeEnum(constants.MediaContentType);
 export const mediaPresentationZ = shopifyNodeZ.extend({
 	asJson: jsonZ
 });
 
 export const media = shopifyNodeZ.extend({
 	alt: z.string().optional(),
-	mediaContentType: mediaContentTypeZ,
+	mediaContentType: mediaContentTypeZ.optional(),
 	presentation: mediaPresentationZ.optional(),
 	previewImage: shopifyImageZ.optional()
 });
 
-export const mediaConnectionZ = shopifyConnectionZ(media).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const mediaConnectionZ = shopifyConnectionZ(media)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type MediaConnectionZ = z.infer<typeof mediaConnectionZ>;
 
 export const productZ = z
 	.object({
-		availableForSale: z.boolean(),
-		compareAtPriceRange: priceRangeZ,
-		collections: z.lazy(() => collectionConnectionZ),
-		createdAt: z.date(),
+		availableForSale: z.boolean().optional(),
+		compareAtPriceRange: priceRangeZ.optional(),
+		collections: z.lazy(() => collectionConnectionZ).optional(),
+		createdAt: z.date().optional(),
 		description: z.string(),
-		descriptionHtml: z.string(), //todo: HTML parsing
+		descriptionHtml: z.string().optional(), //todo: HTML parsing
 		featuredImage: shopifyImageZ.optional(),
-		handle: z.string(),
-		isGiftCard: z.boolean(),
+		handle: z.string().optional(),
+		isGiftCard: z.boolean().optional(),
 		images: imageConnectionZ,
-		media: mediaConnectionZ,
-		options: z.array(
-			shopifyNodeZ.extend({
-				name: z.string(),
-				values: z.array(z.string())
-			})
-		),
-		priceRange: priceRangeZ,
-		productType: z.string(),
-		publishedAt: z.date(),
-		requiresSellingPlan: z.boolean(),
-		sellingPlanGroups: sellingPlanGroupConnectionZ,
-		seo: shopifySeoZ,
-		tags: z.array(z.string()),
+		media: mediaConnectionZ.optional(),
+		options: z
+			.array(
+				shopifyNodeZ.extend({
+					name: z.string(),
+					values: z.array(z.string())
+				})
+			)
+			.optional(),
+		priceRange: priceRangeZ.optional(),
+		productType: z.string().optional(),
+		publishedAt: z.date().optional(),
+		requiresSellingPlan: z.boolean().optional(),
+		sellingPlanGroups: sellingPlanGroupConnectionZ.optional(),
+		seo: shopifySeoZ.optional(),
+		tags: z.array(z.string()).optional(),
 		title: z.string(),
 		totalInventory: z.number().int().optional(),
-		updatedAt: z.date(),
+		updatedAt: z.date().optional(),
 		variantBySelectedOptions: productVariantZ.optional(),
-		variants: productVariantConnectionZ,
-		vendor: z.string()
+		variants: productVariantConnectionZ.optional(),
+		vendor: z.string().optional()
 	})
 	.merge(hasMetafieldsZ)
 	.merge(shopifyNodeZ)
@@ -421,61 +453,167 @@ export const productZ = z
 	.merge(trackableZ);
 export type ProductZ = z.infer<typeof productZ>;
 
-export const productConnectionZ = shopifyConnectionZ(productZ).pick({
-	edges: true,
-	filters: true,
-	nodes: true,
-	pageInfo: true
-});
+export const productConnectionZ = shopifyConnectionZ(productZ)
+	.pick({
+		edges: true,
+		filters: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type ProductConnectionZ = z.infer<typeof productConnectionZ>;
+
+// export const shopifyQueryString =
+
+export const productQueryRawZ = z
+	.object({
+		available_for_sale: z.boolean(),
+		created_at: z.date(),
+		product_type: z.string(),
+		tag: z.array(z.string()),
+		tag_not: z.array(z.string()),
+		title: z.string(),
+		updated_at: z.date(),
+		'variants.price': moneyZ,
+		vendor: z.string(),
+		'-available_for_sale': z.boolean(),
+		'-created_at': z.date(),
+		'-product_type': z.string(),
+		'-tag': z.array(z.string()),
+		'-tag_not': z.array(z.string()),
+		'-title': z.string(),
+		'-updated_at': z.date(),
+		'-variants.price': z.number(),
+		'-vendor': z.string()
+	})
+	.partial();
+export type ProductQueryRawZ = z.infer<typeof productQueryRawZ>;
+
+export const productQueryOptionZ = productQueryRawZ.keyof();
+export type ProductQueryOptionZ = z.infer<typeof productQueryOptionZ>;
+
+export const productQueryZ = z.string().refine((queryString) => {
+	try {
+		const queryRaw = queryString
+			.split(/\s*/)
+			.map((item) => item.split(':'))
+			.reduce((rebuiltJson: ProductQueryRawZ, pair): ProductQueryRawZ => {
+				const pairJson: JsonZ = { [pair[0]]: pair[1] };
+				productQueryRawZ.parse(pairJson);
+				return {
+					...rebuiltJson,
+					...pairJson
+				};
+			}, {});
+		productQueryRawZ.parse(queryRaw);
+		return true;
+	} catch (_err) {
+		return false;
+	}
+});
+export const isProductQueryOption = function (
+	possibleQuery: string
+): possibleQuery is ProductQueryOptionZ {
+	return productQueryOptionZ.safeParse(possibleQuery).success;
+};
+export type ProductQueryZ = z.infer<typeof productQueryZ>;
+
+export const productFilterZ = z
+	.object({
+		after: z.string(),
+		before: z.string(),
+		first: z.number().int(),
+		last: z.number().int(),
+		query: productQueryZ
+	})
+	.partial();
+export type ProductFilterZ = z.infer<typeof productFilterZ>;
+
+export const productFilterOptionZ = productFilterZ.keyof();
+export type ProductFilterOptionZ = z.infer<typeof productFilterOptionZ>;
+export const isProductFilterOption = function (
+	possibleFilter: string
+): possibleFilter is ProductFilterOptionZ {
+	return productFilterOptionZ.safeParse(possibleFilter).success;
+};
+
+export const productsFilterFormattedZ = z.string().refine((filterString) => {
+	try {
+		const filter = filterString
+			.split(',')
+			.map((item) => item.trim())
+			.map((item) => item.split(':'))
+			.reduce((rebuiltJson: ProductFilterZ, pair): ProductFilterZ => {
+				const pairJson: JsonZ = {};
+				if (pair.length >= 2) {
+					pairJson[pair[0]] = pair[1];
+					productFilterZ.parse(pairJson);
+				}
+				const newJson: ProductFilterZ = {
+					...rebuiltJson,
+					...pairJson
+				};
+				return newJson;
+			}, {});
+		productFilterZ.parse(filter);
+		return true;
+	} catch (_err) {
+		return false;
+	}
+});
+export type ProductsFilterFormattedZ = z.infer<typeof productsFilterFormattedZ>;
 
 export type ShopifyCollectionZ = ShopifyNodeZ &
 	HasMetafieldsZ &
 	OnlineStorePublishableZ &
 	TrackableZ & {
-		description: string;
-		descriptionHtml: string;
-		handle: string;
+		description?: string;
+		descriptionHtml?: string;
+		handle?: string;
 		image?: ShopifyImageZ;
-		products: ProductConnectionZ;
-		seo: ShopifySeoZ;
-		title: string;
-		updatedAt: Date;
+		products?: ProductConnectionZ;
+		seo?: ShopifySeoZ;
+		title?: string;
+		updatedAt?: Date;
 	};
 
 export const shopifyCollectionZ: z.ZodSchema<ShopifyCollectionZ> = z
 	.object({
-		description: z.string(),
-		descriptionHtml: z.string(), //todo: HTML parsing
-		handle: z.string(),
+		description: z.string().optional(),
+		descriptionHtml: z.string().optional(), //todo: HTML parsing
+		handle: z.string().optional(),
 		image: shopifyImageZ.optional(),
-		products: productConnectionZ,
-		seo: shopifySeoZ,
-		title: z.string(),
-		updatedAt: z.date()
+		products: productConnectionZ.optional(),
+		seo: shopifySeoZ.optional(),
+		title: z.string().optional(),
+		updatedAt: z.date().optional()
 	})
 	.merge(hasMetafieldsZ)
 	.merge(shopifyNodeZ)
 	.merge(onlineStorePublishableZ)
 	.merge(trackableZ);
 
-export const collectionConnectionZ = shopifyConnectionZ(shopifyCollectionZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true,
-	totalCount: true
-});
+export const collectionConnectionZ = shopifyConnectionZ(shopifyCollectionZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true,
+		totalCount: true
+	})
+	.partial();
 export type CollectionConnectionZ = z.infer<typeof collectionConnectionZ>;
 
-export const orderCancelReasonZ = z.nativeEnum(OrderCancelReason);
-export const orderFulfillmentStatusZ = z.nativeEnum(OrderFulfillmentStatus);
-export const orderFinancialStatusZ = z.nativeEnum(OrderFinancialStatus);
+export const orderCancelReasonZ = z.nativeEnum(constants.OrderCancelReason);
+export const orderFulfillmentStatusZ = z.nativeEnum(constants.OrderFulfillmentStatus);
+export const orderFinancialStatusZ = z.nativeEnum(constants.OrderFinancialStatus);
 
 export const discountApplicationAllocationMethodZ = z.nativeEnum(
-	DiscountApplicationAllocationMethod
+	constants.DiscountApplicationAllocationMethod
 );
-export const discountApplicationTargetSelectionZ = z.nativeEnum(DiscountApplicationTargetSelection);
-export const discountApplicationTargetTypeZ = z.nativeEnum(DiscountApplicationTargetType);
+export const discountApplicationTargetSelectionZ = z.nativeEnum(
+	constants.DiscountApplicationTargetSelection
+);
+export const discountApplicationTargetTypeZ = z.nativeEnum(constants.DiscountApplicationTargetType);
 
 export const pricingValueZ = z.union([
 	moneyZ,
@@ -486,43 +624,47 @@ export const pricingValueZ = z.union([
 export type PricingValueZ = z.infer<typeof pricingValueZ>;
 
 export const discountApplicationZ = z.object({
-	applicationMethod: discountApplicationAllocationMethodZ,
-	targetSelection: discountApplicationTargetSelectionZ,
-	targetType: discountApplicationTargetTypeZ,
-	value: pricingValueZ
+	applicationMethod: discountApplicationAllocationMethodZ.optional(),
+	targetSelection: discountApplicationTargetSelectionZ.optional(),
+	targetType: discountApplicationTargetTypeZ.optional(),
+	value: pricingValueZ.optional()
 });
 export type DiscountApplicationZ = z.infer<typeof discountApplicationZ>;
 
-export const discountApplicationConnectionZ = shopifyConnectionZ(discountApplicationZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const discountApplicationConnectionZ = shopifyConnectionZ(discountApplicationZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type DiscountApplicationConnectionZ = z.infer<typeof discountApplicationConnectionZ>;
 
 export const discountAllocationZ = z.object({
-	allocatedAmount: moneyZ,
-	discountApplication: discountApplicationZ
+	allocatedAmount: moneyZ.optional(),
+	discountApplication: discountApplicationZ.optional()
 });
 export type DiscountAllocationZ = z.infer<typeof discountAllocationZ>;
 
 export const orderLineItemZ = z.object({
-	currentQuantity: z.number().int(),
-	customAttributes: z.array(shopifyAttributeZ),
-	discountAllocations: z.array(discountAllocationZ),
-	discountedTotalPrice: moneyZ,
-	originalTotalPrice: moneyZ,
-	quantity: z.number().int(),
-	title: z.string(),
+	currentQuantity: z.number().int().optional(),
+	customAttributes: z.array(shopifyAttributeZ).optional(),
+	discountAllocations: z.array(discountAllocationZ).optional(),
+	discountedTotalPrice: moneyZ.optional(),
+	originalTotalPrice: moneyZ.optional(),
+	quantity: z.number().int().optional(),
+	title: z.string().optional(),
 	variant: productVariantZ.optional()
 });
 export type OrderLineItemZ = z.infer<typeof orderLineItemZ>;
 
-export const orderLineItemConnectionZ = shopifyConnectionZ(orderLineItemZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const orderLineItemConnectionZ = shopifyConnectionZ(orderLineItemZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type OrderLineItemConnectionZ = z.infer<typeof orderLineItemConnectionZ>;
 
 export const fulfillmentLineItemZ = z.object({
@@ -530,22 +672,26 @@ export const fulfillmentLineItemZ = z.object({
 	quantity: z.number().int()
 });
 
-export const fulfillmentLineItemConnectionZ = shopifyConnectionZ(fulfillmentLineItemZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const fulfillmentLineItemConnectionZ = shopifyConnectionZ(fulfillmentLineItemZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type FulfillmentLineItemConnectionZ = z.infer<typeof fulfillmentLineItemConnectionZ>;
 
 export const orderFulfillmentZ = z.object({
-	fulfillmentLineItems: fulfillmentLineItemConnectionZ,
+	fulfillmentLineItems: fulfillmentLineItemConnectionZ.optional(),
 	trackingCompany: z.string().optional(),
-	trackingInfo: z.array(
-		z.object({
-			number: z.string().optional(),
-			url: z.string().url().optional()
-		})
-	)
+	trackingInfo: z
+		.array(
+			z.object({
+				number: z.string().optional(),
+				url: z.string().url().optional()
+			})
+		)
+		.optional()
 });
 export type OrderFulfillmentZ = z.infer<typeof orderFulfillmentZ>;
 
@@ -558,44 +704,46 @@ export const shopifyOrderZ = shopifyNodeZ.merge(hasMetafieldsZ).extend({
 	currentTotalDuties: moneyZ.optional(),
 	currentTotalPrice: moneyZ,
 	currentTotalTax: moneyZ,
-	customAttributes: z.array(shopifyAttributeZ),
+	customAttributes: z.array(shopifyAttributeZ).optional(),
 	customerLocale: z.string().optional(),
 	customerUrl: z.string().url().optional(),
-	discountApplications: discountApplicationConnectionZ,
-	edited: z.boolean(),
+	discountApplications: discountApplicationConnectionZ.optional(),
+	edited: z.boolean().optional(),
 	email: z.string().email().optional(),
 	financialStatus: orderFinancialStatusZ.optional(),
-	fulfillmentStatus: orderFulfillmentStatusZ,
+	fulfillmentStatus: orderFulfillmentStatusZ.optional(),
 	lineItems: orderLineItemConnectionZ,
-	name: z.string(),
+	name: z.string().optional(),
 	orderNumber: z.number().int(),
 	originalTotalDuties: moneyZ.optional(),
-	originalTotalPrice: moneyZ,
+	originalTotalPrice: moneyZ.optional(),
 	phone: z.string().optional(),
-	processedAt: z.date(),
+	processedAt: z.date().optional(),
 	shippingAddress: mailingAddressZ.optional(),
-	shippingDiscountAllocations: z.array(discountAllocationZ),
-	statusUrl: z.string().url(),
+	shippingDiscountAllocations: z.array(discountAllocationZ).optional(),
+	statusUrl: z.string().url().optional(),
 	subtotalPrice: moneyZ.optional(),
 	successfulFulfillments: orderFulfillmentZ.optional(),
-	totalPrice: moneyZ,
-	totalRefunded: moneyZ,
-	totalShippingPrice: moneyZ,
+	totalPrice: moneyZ.optional(),
+	totalRefunded: moneyZ.optional(),
+	totalShippingPrice: moneyZ.optional(),
 	totalTax: moneyZ.optional()
 });
 export type shopifyOrderZ = z.infer<typeof shopifyOrderZ>;
 
-export const orderConnectionZ = shopifyConnectionZ(shopifyOrderZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true,
-	totalCount: true
-});
+export const orderConnectionZ = shopifyConnectionZ(shopifyOrderZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true,
+		totalCount: true
+	})
+	.partial();
 export type OrderConnectionZ = z.infer<typeof orderConnectionZ>;
 
 export const checkoutLineItemZ = shopifyNodeZ.extend({
-	customAttributes: z.array(shopifyAttributeZ),
-	discountAllocations: z.array(discountAllocationZ),
+	customAttributes: z.array(shopifyAttributeZ).optional(),
+	discountAllocations: z.array(discountAllocationZ).optional(),
 	quantity: z.number().int(),
 	title: z.string(),
 	unitPrice: moneyZ.optional(),
@@ -603,11 +751,13 @@ export const checkoutLineItemZ = shopifyNodeZ.extend({
 });
 export type CheckoutLineItemZ = z.infer<typeof checkoutLineItemZ>;
 
-export const checkoutLineItemConnectionZ = shopifyConnectionZ(checkoutLineItemZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const checkoutLineItemConnectionZ = shopifyConnectionZ(checkoutLineItemZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type CheckoutLineItemConnectionZ = z.infer<typeof checkoutLineItemConnectionZ>;
 
 export const appliedGiftCardZ = shopifyNodeZ.extend({
@@ -619,14 +769,14 @@ export const appliedGiftCardZ = shopifyNodeZ.extend({
 export type AppliedGiftCardZ = z.infer<typeof appliedGiftCardZ>;
 
 export const shippingRateZ = z.object({
-	handle: z.string(),
+	handle: z.string().optional(),
 	price: moneyZ,
-	title: z.string()
+	title: z.string().optional()
 });
 export type ShippingRateZ = z.infer<typeof shippingRateZ>;
 
 export const shopifyCheckoutZ = shopifyNodeZ.extend({
-	appliedGiftCards: z.array(appliedGiftCardZ),
+	appliedGiftCards: z.array(appliedGiftCardZ).optional(),
 	availableShippingRates: z
 		.object({
 			ready: z.boolean(),
@@ -649,10 +799,10 @@ export const shopifyCheckoutZ = shopifyNodeZ.extend({
 	ready: z.boolean(),
 	requiresShipping: z.boolean(),
 	shippingAddress: mailingAddressZ.optional(),
-	shippingDiscountAllocations: z.array(discountAllocationZ),
+	shippingDiscountAllocations: z.array(discountAllocationZ).optional(),
 	shippingLine: shippingRateZ.optional(),
 	subtotalPrice: moneyZ,
-	taxExempt: z.boolean(),
+	taxExempt: z.boolean().optional(),
 	taxesIncluded: z.boolean(),
 	totalDuties: moneyZ.optional(),
 	totalPrice: moneyZ,
@@ -662,33 +812,38 @@ export const shopifyCheckoutZ = shopifyNodeZ.extend({
 });
 export type ShopifyCheckoutZ = z.infer<typeof shopifyCheckoutZ>;
 
-export const customerZ = shopifyNodeZ.merge(hasMetafieldsZ).extend({
-	acceptsMarketing: z.boolean(),
-	addresses: mailingAddressConnectionZ,
-	createdAt: z.date(),
-	defaultAddress: mailingAddressZ.optional(),
-	discountApplications: discountApplicationConnectionZ,
-	displayName: z.string(),
-	email: z.string().email().optional(),
-	firstName: z.string().optional(),
-	lastIncompleteCheckout: shopifyCheckoutZ.optional(),
-	lastName: z.string().optional(),
-	numberOfOrders: z.number().int().min(0),
-	orders: orderConnectionZ,
-	phone: z.string().optional(),
-	tags: z.array(z.string()),
-	updatedAt: z.date()
-});
+export const customerZ = shopifyNodeZ
+	.merge(hasMetafieldsZ)
+	.extend({
+		acceptsMarketing: z.boolean(),
+		addresses: mailingAddressConnectionZ,
+		createdAt: z.date(),
+		defaultAddress: mailingAddressZ.optional(),
+		discountApplications: discountApplicationConnectionZ,
+		displayName: z.string(),
+		email: z.string().email().optional(),
+		firstName: z.string().optional(),
+		lastIncompleteCheckout: shopifyCheckoutZ.optional(),
+		lastName: z.string().optional(),
+		numberOfOrders: z.number().int().min(0),
+		orders: orderConnectionZ,
+		phone: z.string().optional(),
+		tags: z.array(z.string()),
+		updatedAt: z.date()
+	})
+	.partial();
 export type CustomerZ = z.infer<typeof customerZ>;
 
-export const cartBuyerIdentityZ = z.object({
-	countryCode: countryCodeZ.optional(),
-	customer: customerZ.optional(),
-	deliveryAddressPreferences: z.array(mailingAddressZ),
-	email: z.string().optional(),
-	phone: z.string().optional(),
-	walletPreferences: z.array(z.string())
-});
+export const cartBuyerIdentityZ = z
+	.object({
+		countryCode: countryCodeZ.optional(),
+		customer: customerZ.optional(),
+		deliveryAddressPreferences: z.array(mailingAddressZ),
+		email: z.string().optional(),
+		phone: z.string().optional(),
+		walletPreferences: z.array(z.string())
+	})
+	.partial();
 
 // export const checkoutZ = shopifyNodeZ.extend({
 //   completedAt: z.date(),
@@ -714,20 +869,22 @@ export const cartDiscountCodeZ = z.object({
 
 export const baseCartLineZ = shopifyNodeZ.extend({
 	attribute: shopifyAttributeZ.optional(),
-	attributes: z.array(shopifyAttributeZ),
+	attributes: z.array(shopifyAttributeZ).optional(),
 	cost: cartLineCostZ,
-	discountAllocations: z.array(cartDiscountAllocationZ),
+	discountAllocations: z.array(cartDiscountAllocationZ).optional(),
 	merchandise: productVariantZ,
 	quantity: z.number().int(),
 	sellingPlanAllocation: sellingPlanAllocationZ.optional()
 });
 export type BaseCartLineZ = z.infer<typeof baseCartLineZ>;
 
-export const baseCartLineConnectionZ = shopifyConnectionZ(baseCartLineZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const baseCartLineConnectionZ = shopifyConnectionZ(baseCartLineZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type BaseCartLineConnectionZ = z.infer<typeof baseCartLineConnectionZ>;
 
 export const cartCostZ = z.object({
@@ -743,53 +900,55 @@ export const cartCostZ = z.object({
 });
 export type CartCostZ = z.infer<typeof cartCostZ>;
 
-export const deliveryMethodTypeZ = z.nativeEnum(DeliveryMethodType);
+export const deliveryMethodTypeZ = z.nativeEnum(constants.DeliveryMethodType);
 
 export const cartDeliveryOptionZ = z.object({
 	code: z.string().optional(),
-	deliveryMethodType: deliveryMethodTypeZ,
+	deliveryMethodType: deliveryMethodTypeZ.optional(),
 	description: z.string().optional(),
-	estimatedCost: moneyZ,
-	handle: z.string(),
+	estimatedCost: moneyZ.optional(),
+	handle: z.string().optional(),
 	title: z.string().optional()
 });
 export type CartDeliveryOptionZ = z.infer<typeof cartDeliveryOptionZ>;
 
 export const cartDeliveryGroupZ = shopifyNodeZ.extend({
 	cartLines: baseCartLineConnectionZ,
-	deliveryAddress: mailingAddressZ,
+	deliveryAddress: mailingAddressZ.optional(),
 	deliveryOptions: z.array(cartDeliveryOptionZ),
 	selectedDeliveryOption: cartDeliveryOptionZ.optional()
 });
 export type CartDeliveryGroup = z.infer<typeof cartDeliveryGroupConnectionZ>;
 
-export const cartDeliveryGroupConnectionZ = shopifyConnectionZ(cartDeliveryGroupZ).pick({
-	edges: true,
-	nodes: true,
-	pageInfo: true
-});
+export const cartDeliveryGroupConnectionZ = shopifyConnectionZ(cartDeliveryGroupZ)
+	.pick({
+		edges: true,
+		nodes: true,
+		pageInfo: true
+	})
+	.partial();
 export type CartDeliveryGroupConnectionZ = z.infer<typeof cartDeliveryGroupConnectionZ>;
 
 export const cartZ = shopifyNodeZ
 	.extend({
 		attribute: shopifyAttributeZ.optional(),
-		attributes: z.array(shopifyAttributeZ),
-		buyerIdentity: cartBuyerIdentityZ,
-		checkoutUrl: z.string().url(),
+		attributes: z.array(shopifyAttributeZ).optional(),
+		buyerIdentity: cartBuyerIdentityZ.optional(),
+		checkoutUrl: z.string().url().optional(),
 		cost: cartCostZ,
-		createdAt: z.date(),
-		deliveryGroups: cartDeliveryGroupConnectionZ,
-		discountAllocations: z.array(cartDiscountAllocationZ),
-		discountCodes: z.array(cartDiscountCodeZ),
+		createdAt: z.date().optional(),
+		deliveryGroups: cartDeliveryGroupConnectionZ.optional(),
+		discountAllocations: z.array(cartDiscountAllocationZ).optional(),
+		discountCodes: z.array(cartDiscountCodeZ).optional(),
 		lines: baseCartLineConnectionZ,
 		note: z.string().optional(),
-		totalQuantity: z.number().int(),
-		updatedAt: z.date()
+		totalQuantity: z.number().int().optional(),
+		updatedAt: z.date().optional()
 	})
 	.merge(hasMetafieldsZ);
 export type CartZ = z.infer<typeof cartZ>;
 
-export const cartErrorCodeZ = z.nativeEnum(CartErrorCode);
+export const cartErrorCodeZ = z.nativeEnum(constants.CartErrorCode);
 
 export const cartMutationResponseZ = z.promise(
 	z.object({
@@ -803,16 +962,18 @@ export const cartMutationResponseZ = z.promise(
 );
 export type CartMutationResponseZ = z.infer<typeof cartMutationResponseZ>;
 
-export const productResponseZ = z.promise(
-	z.object({
-		product: productZ.partial()
-	})
-);
+export const productResponseZ = z.object({
+	product: productZ
+});
 export type ProductResponseZ = z.infer<typeof productResponseZ>;
 
-export const productListResponseZ = z.promise(
-	z.object({
-		products: productConnectionZ.partial()
-	})
-);
+export const productPromiseZ = z.promise(productResponseZ);
+export type ProductPromiseZ = z.infer<typeof productPromiseZ>;
+
+export const productListResponseZ = z.object({
+	products: productConnectionZ
+});
 export type ProductListResponseZ = z.infer<typeof productListResponseZ>;
+
+export const productListPromiseZ = z.promise(productListResponseZ);
+export type ProductListPromiseZ = z.infer<typeof productListPromiseZ>;

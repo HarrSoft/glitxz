@@ -1,19 +1,19 @@
 <script>
-    import "../app.css";
-    import Sidebarnav from "./components/nav/SidebarNav.component.svelte";
+	import '../app.css';
+	import Sidebarnav from '$com/nav/Sidebarnav.component.svelte';
 </script>
 
-<div class="h-screen max-h-screen flex">
-    <Sidebarnav/>
+<div class="flex h-screen max-h-screen">
+	<Sidebarnav />
 
-    <!-- main content -->
-    <div class="flex items-stretch w-[80vw]">
-        <slot />
-    </div>
-    
-    <!-- logo and meta -->
-    <div class="h-screen flex flex-col pt-10 p-2 border">
-        <h1>Glitxz</h1>
-        <p>High impact art, fashion, and gaming.</p>
-    </div>      
+	<!-- main content -->
+	<main class="flex w-[80vw] items-stretch">
+		<slot />
+	</main>
+
+	<!-- logo and meta -->
+	<div class="flex h-screen flex-col border p-2 pt-10">
+		<h1>Glitxz</h1>
+		<p>High impact art, fashion, and gaming.</p>
+	</div>
 </div>

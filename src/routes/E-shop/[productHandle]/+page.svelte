@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-
+	import { product } from '$stores';
 	export let data: PageData;
-	export let product;
-	export let productImage;
-	export let productVariants;
-	let quantity = 0;
 
-	let selectedProduct = productVariants[0].id;
+	product.set(data.product);
+
+	let quantity = 0;
+	let selectedProduct = data.productVariants[0].id;
+
 	const addToCart = async () => {
 		// add selected product to cart
 		try {
@@ -29,25 +29,21 @@
 			console.log(e);
 		}
 	};
-	function price(itemPrice) {
-		const amount = Number(itemPrice).toFixed(2);
-		return amount + ' ' + 'USD';
-	}
 </script>
 
 <main class="product-page">
 	<article>
 		<section class="product-page-content">
 			<div>
-				<img class="product-page-image" src={productImage} alt={product.handle} />
+				<img class="product-page-image" src={data.productImage} alt={$product.handle} />
 			</div>
 			<div>
-				<h1>{product.title}</h1>
-				<p>{product.description}</p>
+				<h1>{$product.title}</h1>
+				<p>{$product.description}</p>
 				<form>
-					{#if productVariants.length > 1}
+					{#if data.productVariants.length > 1}
 						<div class="product-page-price-list">
-							{#each productVariants as { id, quantityAvailable, title, priceV2 }}
+							{#each data.productVariants as { id, quantityAvailable, title, price }}
 								<div class="product-page-price">
 									<input
 										{id}
@@ -57,14 +53,18 @@
 										disabled={quantityAvailable === 0}
 									/>
 									<label for={id}>
-										{title} - {price(priceV2.amount)}
+										{title} - {price?.amount}
+										{price?.currencyCode}
 									</label>
 								</div>
 							{/each}
 						</div>
 					{:else}
 						<div class="product-page-price is-solo">
-							{price(productVariants[0].priceV2.amount)}
+							{#if data.productVariants[0]}
+								{data.productVariants[0].price?.amount}
+								{data.productVariants[0].price?.currencyCode}
+							{/if}
 						</div>
 					{/if}
 					<div class="product-page-quantity-row">
@@ -73,7 +73,7 @@
 							type="number"
 							name="quantity"
 							min="1"
-							max={productVariants[0].quantityAvailable}
+							max={data.productVariants[0].quantityAvailable}
 							bind:value={quantity}
 						/>
 
