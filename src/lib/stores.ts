@@ -1,13 +1,10 @@
 import { derived, writable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
-import type {
-	ProductZ,
-	ProductFilterZ,
-	ProductListResponseZ,
-	ProductQueryRawZ,
-	ProductResponseZ
-} from '$z';
-import { formatShopifyFilter, stringifyShopifyQuery } from '$com/shopify/queries';
+import type { ProductFilterZ, ProductQueryRawZ } from '$z/shopifyQueries';
+import type { ProductZ } from '$z/shopify';
+import type { ProductListResponseZ, ProductResponseZ } from '$z/shopifyResponses';
+
+import { formatShopifyFilter, stringifyShopifyQuery } from '$q/shopify/utils';
 
 export const searchTimeout: Writable<NodeJS.Timeout | undefined> = writable();
 

@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { ProductZ } from '$z';
+	import type { ProductZ } from '$z/shopify';
 	export let product: ProductZ;
 </script>
 
 <section>
 	<div class="product-card">
 		<div class="product-card-frame">
-			<a href={`/products/${product.handle}`}>
+			<a href={`/E-shop/${product.handle}`}>
 				<img
 					class="prodimg"
 					src={product.images?.edges ? product.images.edges[0].node.url : ''}

@@ -1,9 +1,12 @@
-// import type { PageLoad } from './$types';
-import { moneyZ } from '$z';
-import type { ProductQueryRawZ, ProductListResponseZ } from '$z';
-import { formatShopifyFilter, getProducts, stringifyShopifyQuery } from '$com/shopify/queries';
+import type { PageLoadEvent } from './$types';
 
-export const load = async ({ url }) => {
+import { moneyZ } from '$lib/types/zod/shopifyPrimitives';
+import type { ProductQueryRawZ } from '$z/shopifyQueries';
+import type { ProductListResponseZ } from '$z/shopifyResponses';
+import { getProducts } from '$q/shopify/product';
+import { formatShopifyFilter, stringifyShopifyQuery } from '$q/shopify/utils';
+
+export const load = async ({ url }: PageLoadEvent) => {
 	const query: ProductQueryRawZ = {};
 	if (url.searchParams.get('available_for_sale') === 'true') {
 		query.available_for_sale = true;
@@ -54,13 +57,4 @@ export const load = async ({ url }) => {
 		products: res.products,
 		query
 	};
-	// console.log(pdata);
-
-	// if (productType) {
-	// 	products.update((items) => {
-	// 		const updated = items.filter((product) => product.node.productType === productType);
-
-	// 		return updated;
-	// 	});
-	// }
 };

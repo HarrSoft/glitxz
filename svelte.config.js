@@ -15,9 +15,13 @@ const config = {
 		alias: {
 			$com: './src/lib/components',
 			'$com/*': './src/lib/components/*',
+			$q: './src/lib/queries',
+			'$q/*': './src/lib/queries/*',
 			$stores: './src/lib/stores',
 			$types: './src/lib/types',
-			$z: './src/lib/zod'
+			'$types/*': './src/lib/types/*',
+			$z: './src/lib/types/zod',
+			'$z/*': './src/lib/types/zod/*'
 		}
 	}
 };

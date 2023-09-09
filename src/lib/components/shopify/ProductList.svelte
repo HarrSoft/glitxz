@@ -3,10 +3,8 @@
 	export let products;
 </script>
 
-<div class="product-grid">
+<div class="product-grid flex">
 	{#each $products as product}
 		<ProductCard {product} />
 	{/each}
 </div>
-
-<style></style>

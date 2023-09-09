@@ -4,8 +4,8 @@
 
 <nav class="w-[15vw] border pt-10">
 	<NavMainTopic href="/" activeColor="">Home</NavMainTopic>
-	<NavMainTopic href="/Art">Art</NavMainTopic>
-	<NavMainTopic href="/Fashion">Fashion</NavMainTopic>
-	<NavMainTopic href="/Gaming">Gaming</NavMainTopic>
-	<NavMainTopic href="/E-shop">E-Shop</NavMainTopic>
+	<NavMainTopic href="/art">Art</NavMainTopic>
+	<NavMainTopic href="/fashion">Fashion</NavMainTopic>
+	<NavMainTopic href="/gaming">Gaming</NavMainTopic>
+	<NavMainTopic href="/e-shop">E-Shop</NavMainTopic>
 </nav>

@@ -1,10 +1,9 @@
-// import type { PageLoad } from './$types';
-// import { z } from 'zod';
-// import { productResponseZ } from '$z';
-import type { ProductResponseZ } from '$z';
-import { getProductDetails } from '$com/shopify/queries';
+import type { PageLoadEvent } from './$types';
 
-export const load = async ({ params }) => {
+import type { ProductResponseZ } from '$z/shopifyResponses';
+import { getProductDetails } from '$q/shopify/product';
+
+export const load = async ({ params }: PageLoadEvent) => {
 	const productHandle: string = params.productHandle;
 
 	const res: ProductResponseZ = await getProductDetails(productHandle);

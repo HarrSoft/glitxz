@@ -10,9 +10,13 @@
 			"$lib/*": ["./src/lib/*"],
 			"$com": ["./src/lib/components"],
 			"$com/*": ["./src/lib/components/*"],
-			"$z": ["./src/lib/zod"],
+			"$q": ["./src/lib/queries"],
+			"$q/*": ["./src/lib/queries/*"],
 			"$stores": ["./src/lib/stores"],
-			"$types": ["./src/lib/types"]
+			"$types": ["./src/lib/types"],
+			"$types/*": ["./src/lib/types/*"],
+			"$z": ["./src/lib/types/zod"],
+			"$z/*": ["./src/lib/types/zod/*"]
 		},
 		"resolveJsonModule": true,
 		"skipLibCheck": true,

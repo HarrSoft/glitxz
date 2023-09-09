@@ -2,9 +2,10 @@ import type { PageLoadEvent } from './$types';
 
 export const load = ({ params }: PageLoadEvent) => {
 	return {
-		post: {
-			title: `Title for ${params.slug} goes here`,
-			content: `Content for ${params.slug} goes here`
-		}
+		posts: [
+			{
+				title: 'green letter day'
+			}
+		]
 	};
 };
