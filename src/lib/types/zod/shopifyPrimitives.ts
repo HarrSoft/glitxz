@@ -120,7 +120,7 @@ export const addressZ = z.object({
 	country: z.string().optional(),
 	formatted: z.array(z.string()),
 	latitude: z.number().optional(),
-	longitutde: z.number().optional(),
+	longitude: z.number().optional(),
 	phone: z.string().optional(),
 	province: z.string().optional(),
 	provinceCode: z.string().optional(),
