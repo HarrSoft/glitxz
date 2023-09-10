@@ -4,10 +4,8 @@ import type { BlogZ } from '$z/shopify';
 
 export const getBlogByHandle = async (blogHandle = 'news'): Promise<BlogZ> => {
 	try {
-		const shopifyResponse = blogZ.parse(
-			(
-				await postToShopify({
-					query: `
+		const shopifyResponse = await postToShopify({
+			query: `
         query getBlog($blogHandle: String!) {
           blog(handle: $blogHandle) {
             handle
@@ -38,18 +36,16 @@ export const getBlogByHandle = async (blogHandle = 'news'): Promise<BlogZ> => {
           }
         }
       `,
-					variables: {
-						blogHandle
-					}
-				})
-			).blog
-		);
-
-		shopifyResponse.articles?.edges?.forEach((edge) => {
+			variables: {
+				blogHandle
+			}
+		});
+		const blog = shopifyResponse.blog;
+		blog.articles?.edges?.forEach((edge) => {
 			edge.node.publishedAt = new Date(edge.node.publishedAt);
 		});
-		const res = blogZ.parse(shopifyResponse);
-		return res;
+		const parsedBlog = blogZ.parse(blog);
+		return parsedBlog;
 	} catch (err) {
 		console.error(err);
 		return {
