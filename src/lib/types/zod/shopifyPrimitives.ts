@@ -35,7 +35,7 @@ export const shopifyEdgeZ = function <T extends z.ZodTypeAny>(typeDefinition: T)
 		node: typeDefinition
 	});
 };
-export type ShopifyEdgeZ = ReturnType<typeof shopifyEdgeZ>;
+export type ShopifyEdgeZ<T extends z.ZodTypeAny> = z.infer<ReturnType<typeof shopifyEdgeZ<T>>>;
 
 export const shopifyFilterTypeZ = z.nativeEnum(enums.ShopifyFilterType);
 export type ShopifyFilterTypeEnumZ = z.infer<typeof shopifyFilterTypeZ>;
@@ -69,7 +69,9 @@ export const shopifyConnectionZ = function <T extends z.ZodTypeAny>(typeDefiniti
 		totalCount: z.number().int().min(0).optional()
 	});
 };
-export type ShopifyConnectionZ<T extends z.ZodTypeAny> = ReturnType<typeof shopifyConnectionZ<T>>;
+export type ShopifyConnectionZ<T extends z.ZodTypeAny> = z.infer<
+	ReturnType<typeof shopifyConnectionZ<T>>
+>;
 
 export const shopifyImageZ = shopifyNodeZ.extend({
 	altText: z.string().nullable(),

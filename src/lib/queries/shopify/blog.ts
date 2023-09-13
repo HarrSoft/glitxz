@@ -1,6 +1,7 @@
 import { postToShopify } from '$q/shopify/utils';
-import { blogZ } from '$z/shopify';
-import type { BlogZ } from '$z/shopify';
+import { articleZ, blogZ } from '$z/shopify';
+import type { ArticleZ, BlogZ } from '$z/shopify';
+import type { ShopifyEdgeZ } from '$z/shopifyPrimitives';
 
 export const getBlogByHandle = async (blogHandle = 'news'): Promise<BlogZ> => {
 	try {
@@ -41,8 +42,10 @@ export const getBlogByHandle = async (blogHandle = 'news'): Promise<BlogZ> => {
 			}
 		});
 		const blog = shopifyResponse.blog;
-		blog.articles?.edges?.forEach((edge) => {
-			edge.node.publishedAt = new Date(edge.node.publishedAt);
+		blog.articles?.edges?.forEach((edge: ShopifyEdgeZ<typeof articleZ>) => {
+			if (edge?.node) {
+				edge.node.publishedAt = new Date(edge.node.publishedAt);
+			}
 		});
 		const parsedBlog = blogZ.parse(blog);
 		return parsedBlog;
@@ -55,6 +58,114 @@ export const getBlogByHandle = async (blogHandle = 'news'): Promise<BlogZ> => {
 			},
 			handle: 'news',
 			title: 'News'
+		};
+	}
+};
+export const getArticleById = async (articleId: string): Promise<ArticleZ> => {
+	try {
+		const shopifyResponse = await postToShopify({
+			query: `
+        query getArticle($articleId: String!) {
+          article(id: $articleId) {
+           {
+              authorV2 {
+                firstName
+                name
+              }
+              blog
+              content
+              contentHtml
+              excerpt
+              excerptHtml
+              handle
+              id
+              image {
+                altText
+                id
+                url
+              }
+              publishedAt
+              seo
+              tags
+              title
+            }
+          }
+        }
+      `,
+			variables: {
+				articleId
+			}
+		});
+		const article = {
+			...shopifyResponse.article,
+			publishedAt: new Date(shopifyResponse.article.publishedAt)
+		};
+		const parsedArticle = articleZ.parse(article);
+		return parsedArticle;
+	} catch (err) {
+		console.error(err);
+		return {
+			id: '404',
+			authorV2: {},
+			handle: '',
+			publishedAt: new Date(),
+			title: '',
+			tags: []
+		};
+	}
+};
+export const getArticleByHandle = async (
+	blogHandle: string,
+	articleHandle: string
+): Promise<ArticleZ> => {
+	try {
+		const shopifyResponse = await postToShopify({
+			query: `
+        query getBlogArticle($blogHandle: String!, $articleHandle: String!) {
+          blog(handle: $blogHandle){
+            articleByHandle(handle: $articleHandle) {
+              authorV2 {
+                firstName
+                name
+              }
+              content
+              contentHtml
+              excerpt
+              excerptHtml
+              handle
+              id
+              image {
+                altText
+                id
+                url
+              }
+              publishedAt
+              tags
+              title
+            }
+          }
+        }
+      `,
+			variables: {
+				blogHandle,
+				articleHandle
+			}
+		});
+		const article = {
+			...shopifyResponse.blog.articleByHandle,
+			publishedAt: new Date(shopifyResponse.blog.articleByHandle.publishedAt)
+		};
+		const parsedArticle = articleZ.parse(article);
+		return parsedArticle;
+	} catch (err) {
+		console.error(err);
+		return {
+			id: '404',
+			authorV2: {},
+			handle: '',
+			publishedAt: new Date(),
+			title: '',
+			tags: []
 		};
 	}
 };

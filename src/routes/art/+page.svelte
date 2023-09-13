@@ -13,7 +13,7 @@
 
 	<div>
 		{#each data.articles as article (article.id)}
-			<ArticlePreview {article} />
+			<ArticlePreview blogHandle="art" {article} />
 		{:else}
 			<p>No articles!</p>
 		{/each}
