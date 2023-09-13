@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { product } from '$stores';
+
 	export let data: PageData;
 
 	product.set(data.product);

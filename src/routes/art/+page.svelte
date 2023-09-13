@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-	<title>Fashion@Glitxz</title>
+	<title>Art@Glitxz</title>
 </svelte:head>
 
-<Blog handle="fashion" articles={data.articles} />
+<Blog handle="art" articles={data.articles} />

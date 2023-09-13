@@ -1,12 +1,13 @@
 <script lang="ts">
-	import type { ProductZ } from '$z';
+	import type { ProductZ } from '$z/shopify';
+
 	export let product: ProductZ;
 </script>
 
 <section>
 	<div class="product-card">
 		<div class="product-card-frame">
-			<a href={`/products/${product.handle}`}>
+			<a href={`/e-shop/${product.handle}`}>
 				<img
 					class="prodimg"
 					src={product.images?.edges ? product.images.edges[0].node.url : ''}
@@ -18,7 +19,7 @@
 			<h3 class="product-card-title">{product.title ?? product.handle}</h3>
 			<p class="product-card-description">{product.description.substring(0, 60) + '...'}</p>
 		</div>
-		<a href={`/E-shop/${product.handle}`}>
+		<a href={`/e-shop/${product.handle}`}>
 			<button>View Item {'>'}</button>
 		</a>
 	</div>
