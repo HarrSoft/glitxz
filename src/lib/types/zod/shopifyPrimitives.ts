@@ -287,6 +287,9 @@ export type CartDeliveryOptionZ = z.infer<typeof cartDeliveryOptionZ>;
 
 export const cartErrorCodeZ = z.nativeEnum(enums.CartErrorCode);
 
+export const blogHandleZ = z.union([z.literal('art'), z.literal('fashion'), z.literal('gaming')]);
+export type BlogHandleZ = z.infer<typeof blogHandleZ>;
+
 export const articleAuthorZ = z.object({
 	bio: z.string().optional(),
 	email: z.string().email().optional(),

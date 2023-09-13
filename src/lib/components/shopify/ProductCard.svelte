@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { ProductZ } from '$z/shopify';
+
 	export let product: ProductZ;
 </script>
 

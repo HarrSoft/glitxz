@@ -2,9 +2,10 @@ import type { BlogZ } from '$z/shopify';
 import { getBlogByHandle } from '$q/shopify/blog';
 
 export const load = async () => {
-	const res: BlogZ = await getBlogByHandle('news');
+	const blog: BlogZ = await getBlogByHandle('art');
+	// const art = await getArt -- to be implemented
 
 	return {
-		articles: res?.articles?.edges ? res.articles.edges.map((node) => node.node) : []
+		articles: blog?.articles?.edges ? blog.articles.edges.map((node) => node.node) : []
 	};
 };

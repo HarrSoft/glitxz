@@ -1,8 +1,9 @@
 <script lang="ts">
+	import type { BlogHandleZ } from '$z/shopifyPrimitives';
 	import type { ArticleZ } from '$z/shopify';
 
 	export let article: ArticleZ;
-	export let blogHandle: 'art' | 'fashion' | 'gaming';
+	export let blogHandle: BlogHandleZ | undefined;
 </script>
 
 <div>

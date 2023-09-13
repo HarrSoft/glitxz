@@ -1,11 +1,11 @@
-import type { PageLoadEvent } from './$types';
+import type { BlogZ } from '$z/shopify';
+import { getBlogByHandle } from '$q/shopify/blog';
 
-export const load = ({ params }: PageLoadEvent) => {
+export const load = async () => {
+	const blog: BlogZ = await getBlogByHandle('fashion');
+	// const fashions = await getFashions -- to be implemented
+
 	return {
-		posts: [
-			{
-				title: 'blue letter day'
-			}
-		]
+		articles: blog?.articles?.edges ? blog.articles.edges.map((node) => node.node) : []
 	};
 };

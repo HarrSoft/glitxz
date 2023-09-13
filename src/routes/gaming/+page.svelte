@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import Blog from '$com/blog/Blog.svelte';
 
-	// export let data: PageData;
+	export let data: PageData;
 </script>
 
 <svelte:head>
-	<title>Shoperoni</title>
+	<title>Gaming@Glitxz</title>
 </svelte:head>
 
-<main />
+<Blog handle="gaming" articles={data.articles} />

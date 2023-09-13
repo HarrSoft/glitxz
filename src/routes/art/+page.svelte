@@ -1,21 +1,12 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import ArticlePreview from '$com/shopify/ArticlePreview.svelte';
+	import Blog from '$com/blog/Blog.svelte';
+
 	export let data: PageData;
 </script>
 
 <svelte:head>
-	<title>Shoperoni</title>
+	<title>Art@Glitxz</title>
 </svelte:head>
 
-<main>
-	<h1>Art</h1>
-
-	<div>
-		{#each data.articles as article (article.id)}
-			<ArticlePreview blogHandle="art" {article} />
-		{:else}
-			<p>No articles!</p>
-		{/each}
-	</div>
-</main>
+<Blog handle="art" articles={data.articles} />

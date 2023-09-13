@@ -1,9 +1,9 @@
 import { postToShopify } from '$q/shopify/utils';
 import { articleZ, blogZ } from '$z/shopify';
 import type { ArticleZ, BlogZ } from '$z/shopify';
-import type { ShopifyEdgeZ } from '$z/shopifyPrimitives';
+import type { BlogHandleZ, ShopifyEdgeZ } from '$z/shopifyPrimitives';
 
-export const getBlogByHandle = async (blogHandle = 'news'): Promise<BlogZ> => {
+export const getBlogByHandle = async (blogHandle: BlogHandleZ): Promise<BlogZ> => {
 	try {
 		const shopifyResponse = await postToShopify({
 			query: `

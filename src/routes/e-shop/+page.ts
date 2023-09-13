@@ -1,6 +1,6 @@
 import type { PageLoadEvent } from './$types';
 
-import { moneyZ } from '$lib/types/zod/shopifyPrimitives';
+import { moneyZ } from '$z/shopifyPrimitives';
 import type { ProductQueryRawZ } from '$z/shopifyQueries';
 import type { ProductListResponseZ } from '$z/shopifyResponses';
 import { getProducts } from '$q/shopify/product';

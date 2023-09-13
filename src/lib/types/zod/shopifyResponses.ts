@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { cartErrorCodeZ, displayableErrorZ } from '$lib/types/zod/shopifyPrimitives';
-import { cartZ, productZ, productConnectionZ } from '$lib/types/zod/shopify';
+import { cartErrorCodeZ, displayableErrorZ } from '$z/shopifyPrimitives';
+import { cartZ, productZ, productConnectionZ } from '$z/shopify';
 
 export const cartMutationResponseZ = z.promise(
 	z.object({

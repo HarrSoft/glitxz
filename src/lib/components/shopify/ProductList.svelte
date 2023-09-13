@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ProductCard from '$com/shopify/ProductCard.svelte';
+
 	export let products;
 </script>
 
