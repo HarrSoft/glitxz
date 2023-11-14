@@ -1,4 +1,4 @@
-<div class="p-10 max-w-[80%]">
+<div class="p-10 h-full max-w-[80%]">
   
   <section>
     <h1 class="font-black text-2xl my-10">Who are we?</h1>
@@ -35,17 +35,17 @@
   
   <section>
     <h1 class="font-black text-2xl my-16">What we mean when we say those words.</h1>
-    <div class="flex w-full justify-between">
+    <div class="flex md:flex-row flex-col w-full justify-between">
       <div>
-        <h1 class="font-black text-2xl">Art.</h1>
+        <h1 class="font-black text-2xl pt-5 md:pt-0">Art.</h1>
         <p>Art is a experience captured crystalized and shared</p>
       </div>
       <div>
-        <h1 class="font-black text-2xl">Fashion.</h1>
+        <h1 class="font-black text-2xl md:pt-0 pt-5">Fashion.</h1>
         <p>Fashion is how we share with the world how we experience ourselves</p>
       </div>
       <div>
-        <h1 class="font-black text-2xl">Gaming.</h1>
+        <h1 class="font-black text-2xl md:pt-0 pt-5">Gaming.</h1>
         <p>Games are curated structured  interactive experiences</p>
       </div>
     </div>
