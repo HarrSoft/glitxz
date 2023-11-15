@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-	<title>Shoperoni</title>
+	<title>E-Shop</title>
 </svelte:head>
 
 <main>

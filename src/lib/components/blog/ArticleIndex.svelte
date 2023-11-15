@@ -1,8 +1,7 @@
 <script lang="ts">
 	import type { BlogHandleZ } from '$z/shopifyPrimitives';
 	import type { ArticleZ } from '$z/shopify';
-	import ArticlePreview from '$com/shopify/ArticlePreview.svelte';
-	import { getContext } from 'svelte';
+	import ArticlePreview from '$lib/components/blog/ArticlePreview.svelte';
 
 
 	export let articles: Array<ArticleZ> = [];
@@ -10,7 +9,6 @@
 	
 	let speedX: number = 30;
 	let move: number = 0;
-	let position: number = 0;
 	let duration:number = 350;
 	let slideW:number;
 	let windowW:number;
@@ -36,7 +34,6 @@
 	}
 
 	$: onresize = () => {
-		position = 0;
 		lefMove = true;
 		speedX = Math.abs(speedX);
 	}
