@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import Blog from '$com/blog/Blog.svelte';
+	import ArticleIndex from '$lib/components/blog/ArticleIndex.svelte';
 
 	export let data: PageData;
 </script>
@@ -9,4 +9,4 @@
 	<title>Art@Glitxz</title>
 </svelte:head>
 
-<Blog handle="art" articles={data.articles} />
+<ArticleIndex handle="art" articles={data.articles} />
