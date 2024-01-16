@@ -1,7 +1,8 @@
 import type { BlogZ } from '$z/shopify';
 import { getBlogByHandle } from '$q/shopify/blog';
+import type { PageLoad } from './$types';
 
-export const load = async () => {
+export const load: PageLoad = async () => {
 	const blog: BlogZ = await getBlogByHandle('gaming');
 	// const games = await getGames -- to be implemented
 
