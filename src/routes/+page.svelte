@@ -1,9 +1,35 @@
-<div class="p-10 h-full max-w-[80%]">
-  
-  <section>
-    <h1 class="font-black text-2xl my-10">Who are we?</h1>
-    <p class="max-w-[80%]">
-      <strong>Glitxz -</strong> A collective of artists, gamers, fashion scholars, and creators from diverse backgrounds
+<script lang="ts">
+      import * as SC from 'svelte-cubed';
+      import * as THREE from 'three';
+
+      let canvasWidth: number;
+      
+      // three js 
+      const sphere = new THREE.SphereGeometry(1, 32, 32);
+
+      const material = new THREE.MeshPhysicalMaterial({ emissive: 0xffffdd });
+        material.reflectivity = 0
+        material.transmission = 1
+        material.roughness = 0.2
+        material.metalness = 0
+        material.clearcoat = 0.3
+        material.clearcoatRoughness = 0.25
+        material.color = new THREE.Color(0xffffff)
+        material.ior = 1.2
+</script>
+
+<svelte:window bind:outerWidth={canvasWidth}></svelte:window>
+<div class="container">
+  <SC.Canvas width={canvasWidth}  alpha={true} antialias>
+    <SC.Mesh position={[0,0,0]} geometry={sphere} material={material}/>
+    <SC.PerspectiveCamera/>
+  </SC.Canvas>
+</div>
+<div class="p-10 bg-slate-200">
+  <section class=" h-[80vh] flex flex-col justify-center items-center">
+    <h1 class="z-10 font-black text-2xl my-10 max-w-3/5">Glitxz</h1>
+    <p class="z-10 text-center">
+      A collective of artists, gamers, fashion scholars, and creators from diverse backgrounds
       who have come together to explore the intersection between Art, Fashion, and Gaming.
     </p>
   </section>
@@ -50,6 +76,15 @@
       </div>
     </div>
   </section>
-
-
 </div>
+
+<style>
+	.container {
+		position: absolute;
+		background: rgb(58, 63, 126);
+		width: 100%;
+		height: 100%;
+		top: 0;
+	}
+
+</style>
