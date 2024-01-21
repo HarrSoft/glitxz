@@ -17,6 +17,7 @@
 		"@playwright/test": "^1.28.1",
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.5.0",
+		"@types/three": "^0.158.3",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
 		"autoprefixer": "^10.4.14",
@@ -44,6 +45,8 @@
 		"@auth/sveltekit": "^0.3.6",
 		"@prisma/client": "^5.1.1",
 		"@splinetool/loader": "^1.0.31",
+		"svelte-cubed": "^0.2.1",
+		"three": "^0.158.0",
 		"zod": "^3.21.4"
 	}
 }
