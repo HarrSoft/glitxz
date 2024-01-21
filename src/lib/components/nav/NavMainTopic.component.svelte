@@ -9,7 +9,7 @@
 	<a
 		{href}
 		class:active={$page.url.pathname.includes(href)}
-		class={`text-2xl font-black text-${activeColor}`}
+		class={`text-xl font-black text-${activeColor}`}
 	>
 		<slot />
 	</a>
