@@ -3,13 +3,15 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 2,
-    "eslint.validate": ["javascript", "svelte"],
     "[javascript]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[prisma]": {
       "editor.defaultFormatter": "Prisma.prisma"
     },
-    "files.eol": "\n"
+    "files.eol": "\n",
+    "[svelte]": {
+      "editor.defaultFormatter": "svelte.svelte-vscode"
+    }
   }
   
