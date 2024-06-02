@@ -422,7 +422,6 @@ export const checkoutLineItemConnectionZ = shopifyConnectionZ(checkoutLineItemZ)
 	.partial();
 export type CheckoutLineItemConnectionZ = z.infer<typeof checkoutLineItemConnectionZ>;
 
-console.log([]);
 export const shopifyCheckoutZ = shopifyNodeZ.extend({
 	appliedGiftCards: z.array(appliedGiftCardZ).optional(),
 	availableShippingRates: z
