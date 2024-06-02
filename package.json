@@ -45,6 +45,7 @@
 		"@auth/sveltekit": "^0.3.6",
 		"@prisma/client": "^5.1.1",
 		"@splinetool/loader": "^0.9.526",
+		"@splinetool/runtime": "^1.4.7",
 		"@threlte/core": "^7.1.0",
 		"@threlte/extras": "^8.7.4",
 		"svelte-cubed": "^0.2.1",
