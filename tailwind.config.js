@@ -7,12 +7,13 @@ export default {
         primaryGreen : '#00ff4e',    
         primaryRed : '#ff0000',    
         primaryBlue : '#031cff',    
+        primarySalmon : '#F06B6F',    
+        primaryCyan : '#1BFFE2',    
       },
       fontFamily: {
         'navigo': ['navigo', 'sans-serif']
       },
   },
   },
-  plugins: [],
 }
 

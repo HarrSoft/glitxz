@@ -4,12 +4,7 @@
 </script>
 
 <div class="flex flex-col justify-stretch">
-	
-	<!-- main content -->
-	<main class="h-[calc(100vh - var(--nav-height))] mb-[--nav-height]">
-		<slot />
-	</main>
-	
 	<Nav />
-
+	<!-- main content -->
+	<slot />
 </div>

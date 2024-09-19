@@ -1,7 +1,6 @@
 <script>
 	import { signIn, signOut } from '@auth/sveltekit/client';
 	import { page } from '$app/stores';
-	import logo from '$lib/assets/logo.png';
 	import Google from '$lib/components/icon/Google.svelte';
 
 	// let email = '';
@@ -21,7 +20,7 @@
 
 <div class="container">
 	{#if !$page.data.session}
-		<img src={logo} alt="auth.js logo" class="logo" />
+		<img src="/LogoBlack.png" alt="auth.js logo" class="logo" />
 		<h1 class="welcome">Welcome</h1>
 		<p class="text">Log in to continue to SvelteKit Auth Example</p>
 
@@ -43,7 +42,7 @@
 
 	{#if $page.data.session}
 		<div class="signout-container">
-			<img src={logo} alt="auth.js logo" class="logo" />
+			<img src="/LogoBlack.png" alt="auth.js logo" class="logo" />
 
 			<button on:click={handleSignOut}>Sign out</button>
 		</div>
