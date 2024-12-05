@@ -15,7 +15,7 @@
 			class="flex w-[70px] flex-col justify-end pl-2 duration-500"
 			style={!navHidden
 				? 'padding-top: 30px;'
-				: 'visibility: hidden; height: 0; width: 70px; font-size: 0px; pointer-events: none;'}
+				: 'visibility: hidden; height: 0; width: 70px; font-size: 0px; pointer-events: none; transition-delay: -200ms;'}
 		>
 			<NavMainTopic href="/" color="primarySalmon">Home</NavMainTopic>
 			<NavMainTopic href="/art" color="primaryRed">Art</NavMainTopic>
