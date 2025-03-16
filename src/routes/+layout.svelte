@@ -1,10 +1,11 @@
-<script>
+<script lang="ts">
+	import Sidebar from '$lib/components/sidebar/Sidebar.component.svelte';
 	import '../app.css';
-	import Nav from '$lib/components/nav/Nav.component.svelte';
 </script>
 
-<div class="flex flex-col justify-stretch">
-	<Nav />
-	<!-- main content -->
-	<slot />
+<div class="flex min-h-screen bg-black pt-10 text-white">
+	<Sidebar />
+	<div class="flex flex-1 flex-col justify-stretch">
+		<slot />
+	</div>
 </div>
