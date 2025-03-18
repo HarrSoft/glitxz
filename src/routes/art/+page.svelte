@@ -18,19 +18,19 @@
 		},
 		{
 			title: "Jack Nick's Debut",
-			image: img4,
+			image: img2,
 			subtitle: 'Music',
 			area: 'left-bottom'
 		},
 		{
 			title: "Lami's Paintings",
-			image: img2,
+			image: img3,
 			subtitle: 'Painting',
 			area: 'right-top'
 		},
 		{
 			title: 'Artist as Exhibition',
-			image: img3,
+			image: img4,
 			subtitle: '',
 			tags: ['Painting', 'Apparel'],
 			area: 'right-middle'
