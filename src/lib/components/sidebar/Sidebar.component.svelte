@@ -26,11 +26,11 @@
 
 		{#if activePage === 'art'}
 			<div class="ml-6 flex flex-col space-y-2">
-				<a href="/art/history" class="text-sm font-medium text-white">Art History</a>
-				<a href="/art/activism" class="text-sm font-medium text-white">Art Activism</a>
-				<a href="/art/artists" class="text-sm font-medium text-white">Artists</a>
-				<a href="/art/new-media" class="text-sm font-medium text-white">New Media</a>
-				<a href="/art/featured" class="text-sm font-medium text-white">Featured</a>
+				<a href="/art/history" class="text-sm font-medium text-red-500">Art History</a>
+				<a href="/art/activism" class="text-sm font-medium text-red-500">Art Activism</a>
+				<a href="/art/artists" class="text-sm font-medium text-red-500">Artists</a>
+				<a href="/art/new-media" class="text-sm font-medium text-red-500">New Media</a>
+				<a href="/art/featured" class="text-sm font-medium text-red-500">Featured</a>
 			</div>
 		{/if}
 
@@ -47,13 +47,13 @@
 
 		{#if activePage === 'gaming'}
 			<div class="ml-6 flex flex-col space-y-2">
-				<a href="/gaming/why-we-love-gaming" class="text-sm font-medium text-white"
+				<a href="/gaming/why-we-love-gaming" class="text-sm font-medium text-green-500"
 					>Why We Love Gaming</a
 				>
-				<a href="/gaming/our-games" class="text-sm font-medium text-white">Our Games</a>
-				<a href="/gaming/tabletop" class="text-sm font-medium text-white">Tabletop</a>
-				<a href="/gaming/events" class="text-sm font-medium text-white">Events</a>
-				<a href="/gaming/lab" class="text-sm font-medium text-white">Lab</a>
+				<a href="/gaming/our-games" class="text-sm font-medium text-green-500">Our Games</a>
+				<a href="/gaming/tabletop" class="text-sm font-medium text-green-500">Tabletop</a>
+				<a href="/gaming/events" class="text-sm font-medium text-green-500">Events</a>
+				<a href="/gaming/lab" class="text-sm font-medium text-green-500">Lab</a>
 			</div>
 		{/if}
 
@@ -70,11 +70,11 @@
 
 		{#if activePage === 'fashion'}
 			<div class="ml-6 flex flex-col space-y-2">
-				<a href="/fashion/couture" class="text-sm font-medium text-white">Couture</a>
-				<a href="/fashion/wearable-tech" class="text-sm font-medium text-white">Wearable Tech</a>
-				<a href="/fashion/history" class="text-sm font-medium text-white">History</a>
-				<a href="/fashion/collections" class="text-sm font-medium text-white">Collections</a>
-				<a href="/fashion/statements" class="text-sm font-medium text-white">Statements</a>
+				<a href="/fashion/couture" class="text-sm font-medium text-blue-500">Couture</a>
+				<a href="/fashion/wearable-tech" class="text-sm font-medium text-blue-500">Wearable Tech</a>
+				<a href="/fashion/history" class="text-sm font-medium text-blue-500">History</a>
+				<a href="/fashion/collections" class="text-sm font-medium text-blue-500">Collections</a>
+				<a href="/fashion/statements" class="text-sm font-medium text-blue-500">Statements</a>
 			</div>
 		{/if}
 
