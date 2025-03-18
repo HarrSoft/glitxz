@@ -1,46 +1,57 @@
+<!-- /routes/gaming/+page.svelte -->
 <script lang="ts">
 	import ContentCard from '$lib/components/content/ContentCard.component.svelte';
+	import GridLayout from '$lib/components/content/GridLayout.svelte';
+
 	import img1 from '$lib/assets/Mask Group 1.png';
 	import img2 from '$lib/assets/Mask Group 2.png';
 	import img3 from '$lib/assets/Mask Group 3.png';
 	import img4 from '$lib/assets/Mask Group 4.png';
 	import img5 from '$lib/assets/Mask Group 5.png';
-	const featuredArt = [
+
+	const items = [
 		{
 			title: 'Jaden and Naru Team Up',
 			image: img1,
-			subtitle: ''
+			subtitle: 'Runway',
+			area: 'left-top'
 		},
 		{
 			title: "Jack Nick's Debut",
 			image: img4,
-			subtitle: ''
+			subtitle: 'Music',
+			area: 'left-bottom'
 		},
 		{
 			title: "Lami's Paintings",
 			image: img2,
-			subtitle: ''
+			subtitle: 'Painting',
+			area: 'right-top'
 		},
 		{
-			title: 'Nelly Enters The Competition',
+			title: 'Artist as Exhibition',
 			image: img3,
-			subtitle: ''
+			subtitle: '',
+			tags: ['Painting', 'Apparel'],
+			area: 'right-middle'
 		},
 		{
 			title: '',
 			image: img5,
-			subtitle: ''
+			subtitle: '',
+			area: 'right-bottom'
 		}
 	];
 </script>
 
-<div class="grid grid-cols-1 gap-4 p-6 md:grid-cols-2">
-	{#each featuredArt as item, i}
+<GridLayout {items}>
+	<svelte:fragment slot="card" let:item>
 		<ContentCard
 			title={item.title}
 			image={item.image}
-			subtitle={item.subtitle}
-			aspectRatio={i === 0 ? 'aspect-[3/2]' : 'aspect-square'}
+			subtitle={item.subtitle || ''}
+			tags={item.tags || []}
+			aspectRatio="aspect-auto"
 		/>
-	{/each}
-</div>
+	</svelte:fragment>
+</GridLayout>

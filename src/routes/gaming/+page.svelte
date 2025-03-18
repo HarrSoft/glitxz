@@ -5,26 +5,38 @@
 	import img2 from '$lib/assets/Mask Group 2.png';
 	import img3 from '$lib/assets/Mask Group 3.png';
 	import img4 from '$lib/assets/Mask Group 4.png';
+	import img5 from '$lib/assets/Mask Group 5.png';
+
 	const featuredGaming = [
 		{
 			title: 'Jaden and Naru Team Up',
 			image: img1,
-			subtitle: 'Runway'
-		},
-		{
-			title: "Lami's Paintings",
-			image: img2,
-			subtitle: 'Painting'
-		},
-		{
-			title: 'Artist as Exhibition',
-			image: img3,
-			subtitle: 'Painting • Apparel'
+			subtitle: '',
+			area: 'left-top'
 		},
 		{
 			title: "Jack Nick's Debut",
 			image: img4,
-			subtitle: 'Music'
+			subtitle: '',
+			area: 'left-bottom'
+		},
+		{
+			title: "Lami's Paintings",
+			image: img2,
+			subtitle: '',
+			area: 'right-top'
+		},
+		{
+			title: 'Nelly Enters The Competition',
+			image: img3,
+			subtitle: '',
+			area: 'right-middle'
+		},
+		{
+			title: '',
+			image: img5,
+			subtitle: '',
+			area: 'right-bottom'
 		}
 	];
 </script>
