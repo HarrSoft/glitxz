@@ -20,8 +20,8 @@
 <div class="flex min-h-screen flex-col bg-black text-white md:flex-row">
 	<Sidebar />
 
-	<div class="relative flex flex-1 flex-col justify-stretch">
-		<div class="absolute right-0 top-0 z-10 flex justify-end p-4">
+	<div class="md:ml-1/6 relative ml-[16.666667%] flex flex-1 flex-col justify-stretch">
+		<div class="fixed right-0 top-0 z-10 p-4">
 			<div class="flex flex-col items-end">
 				<div class="mb-2 text-xl">STASOZ</div>
 				<div class="h-8 w-8">

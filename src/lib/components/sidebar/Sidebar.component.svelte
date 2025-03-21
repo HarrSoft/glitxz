@@ -5,7 +5,7 @@
 	$: activePage = $page.url.pathname.split('/')[1] || 'home';
 </script>
 
-<aside class="fixed flex h-full w-1/6 flex-col bg-black p-6 md:relative md:w-1/6">
+<aside class="fixed left-0 top-0 z-50 flex h-screen w-1/6 flex-col bg-black p-6">
 	<nav class="flex flex-grow flex-col space-y-4">
 		<a
 			href="/"
