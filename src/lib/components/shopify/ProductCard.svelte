@@ -1,26 +1,32 @@
 <script lang="ts">
-	import type { ProductZ } from '$z/shopify';
-
-	export let product: ProductZ;
+	export let product: {
+		id: string;
+		title: string;
+		price: string;
+		type?: string;
+		imageSrc: string;
+	};
 </script>
 
-<section>
-	<div class="product-card">
-		<div class="product-card-frame">
-			<a href={`/e-shop/${product.handle}`}>
-				<img
-					class="prodimg"
-					src={product.images?.edges ? product.images.edges[0].node.url : ''}
-					alt={product.images?.edges ? product.images.edges[0].node.altText : ''}
-				/>
-			</a>
-		</div>
-		<div class="product-card-text">
-			<h3 class="product-card-title">{product.title ?? product.handle}</h3>
-			<p class="product-card-description">{product.description.substring(0, 60) + '...'}</p>
-		</div>
-		<a href={`/e-shop/${product.handle}`}>
-			<button>View Item {'>'}</button>
-		</a>
+<div class="product-card">
+	<div class="mb-2">
+		<img src={product.imageSrc} alt={product.title} class="aspect-square w-full object-cover" />
 	</div>
-</section>
+
+	<div class="mb-1">
+		<div class="text-xl font-bold">{product.price}</div>
+	</div>
+
+	<div class="mb-2">
+		<div class="text-sm">{product.title}</div>
+		{#if product.type}
+			<div class="text-xs text-gray-400">{product.type}</div>
+		{/if}
+	</div>
+
+	<button
+		class="w-full border border-white bg-transparent py-1 text-xs text-white transition-colors hover:bg-white hover:text-black"
+	>
+		Add To Cart
+	</button>
+</div>
